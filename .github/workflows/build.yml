@@ -29,11 +29,14 @@ jobs:
           pyinstaller --clean --onefile --windowed main.py
 
       - name: Upload Windows Artifact
-        uses: softprops/action-gh-release@v2
-        with:
-          files: dist/main.exe
+        uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+            upload_url: ${{ github.event.release.upload_url }}
+            asset_path: dist/main.exe
+            asset_name: SpiideoStatsApp-Windows.exe
+            asset_content_type: application/octet-stream
 
   build-mac:
     runs-on: macos-latest
@@ -60,8 +63,11 @@ jobs:
           zip -r SpiideoStatsApp-Mac.zip main.app
 
       - name: Upload Mac Artifact
-        uses: softprops/action-gh-release@v2
-        with:
-          files: dist/SpiideoStatsApp-Mac.zip
+        uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+            upload_url: ${{ github.event.release.upload_url }}
+            asset_path: dist/SpiideoStatsApp-Mac.zip
+            asset_name: SpiideoStatsApp-Mac.zip
+            asset_content_type: application/zip
